@@ -78,6 +78,11 @@ A modern web-based tool for safely removing bloatware from Android devices using
 - View operation results and any failed actions
 - Navigate back to package management or connection
 
+## 📷 Previews
+
+[![Connection page](assets/connect_page.png)](https://github.com/prithvitewatia/bloatware-remover)
+[![Package management page](assets/installed_packages_page.png)](https://github.com/prithvitewatia/bloatware-remover)
+
 ## 🛠️ Technical Details
 
 ### Architecture
@@ -184,7 +189,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 If you encounter any issues or have questions:
 
-1. Check the [Issues](https://github.com/prithvitewatia/bloatware-remove/issues) page
+1. Check the [Issues](https://github.com/prithvitewatia/bloatware-remover/issues) page
 2. Create a new issue with detailed information
 3. Include your device model, Android version, and error messages
 
