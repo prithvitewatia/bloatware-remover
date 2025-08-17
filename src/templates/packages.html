@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}Packages - Bloatware Remover{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">
+                    <i class="bi bi-box me-2"></i>
+                    Installed Packages
+                </h4>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-warning">
+                    <h6 class="alert-heading">
+                        <i class="bi bi-exclamation-triangle me-2"></i>
+                        Warning
+                    </h6>
+                    <p class="mb-0">Please be careful when selecting actions. Some packages are essential for system functionality.</p>
+                </div>
+
+                <form method="post" action="/apply-actions">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col" style="width: 60%">
+                                        <i class="bi bi-box me-1"></i>
+                                        Package Name
+                                    </th>
+                                    <th scope="col" style="width: 40%">
+                                        <i class="bi bi-gear me-1"></i>
+                                        Action
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for package in packages %}
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-android me-2 text-success"></i>
+                                            <span class="fw-medium">{{ package }}</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <select name="action_{{ package }}" class="form-select">
+                                            <option value="">No action</option>
+                                            <option value="disable">
+                                                <i class="bi bi-pause-circle"></i> Disable
+                                            </option>
+                                            <option value="uninstall">
+                                                <i class="bi bi-trash"></i> Uninstall
+                                            </option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <div class="text-muted">
+                            <i class="bi bi-info-circle me-1"></i>
+                            {{ packages|length }} packages found
+                        </div>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <button type="button" class="btn btn-outline-secondary me-2" onclick="selectAll('disable')">
+                                <i class="bi bi-pause-circle me-1"></i>
+                                Select All Disable
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary me-2" onclick="selectAll('uninstall')">
+                                <i class="bi bi-trash me-1"></i>
+                                Select All Uninstall
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary me-2" onclick="clearAll()">
+                                <i class="bi bi-x-circle me-1"></i>
+                                Clear All
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-circle me-2"></i>
+                                Apply Actions
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function selectAll(action) {
+    const selects = document.querySelectorAll('select[name^="action_"]');
+    selects.forEach(select => {
+        select.value = action;
+    });
+}
+
+function clearAll() {
+    const selects = document.querySelectorAll('select[name^="action_"]');
+    selects.forEach(select => {
+        select.value = '';
+    });
+}
+</script>
+{% endblock %}

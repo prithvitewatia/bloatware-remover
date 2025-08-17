@@ -1,0 +1,23 @@
+{% macro alert(type, title, message, dismissible=true) %}
+<div class="alert alert-{{ type }} {% if dismissible %}alert-dismissible fade show{% endif %}" role="alert">
+    {% if type == 'success' %}
+        <i class="bi bi-check-circle me-2"></i>
+    {% elif type == 'danger' %}
+        <i class="bi bi-exclamation-triangle me-2"></i>
+    {% elif type == 'warning' %}
+        <i class="bi bi-exclamation-triangle me-2"></i>
+    {% elif type == 'info' %}
+        <i class="bi bi-info-circle me-2"></i>
+    {% endif %}
+    
+    {% if title %}
+        <h6 class="alert-heading">{{ title }}</h6>
+    {% endif %}
+    
+    <p class="mb-0">{{ message }}</p>
+    
+    {% if dismissible %}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    {% endif %}
+</div>
+{% endmacro %} 

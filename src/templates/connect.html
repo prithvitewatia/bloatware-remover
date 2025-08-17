@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% from "components/alert.html" import alert %}
+{% from "components/form_field.html" import form_field %}
+{% from "components/card.html" import card %}
+
+{% block title %}Connect - Bloatware Remover{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        {% call card("Connect to Device", "wifi") %}
+            {{ alert("info", "Connection Instructions", "To connect to the Bloatware Remover, please follow these steps:", false) }}
+            
+            <ol class="list-group list-group-numbered mb-4">
+                <li class="list-group-item">
+                    <i class="bi bi-router me-2 text-primary"></i>
+                    Ensure your device is connected to the same network as the Bloatware Remover.
+                </li>
+                <li class="list-group-item">
+                    <i class="bi bi-phone me-2 text-primary"></i>
+                    Follow the on-screen instructions to complete the connection process.
+                </li>
+            </ol>
+
+            <form method="post" action="/connect-to-device">
+                {% if success is not none and not success %}
+                    {{ alert("danger", "", "Connection Failed. Please try again!") }}
+                {% endif %}
+                
+                {{ form_field("text", "device_ip", "device_ip", "Device IP Address", "192.168.1.100", true, "Enter the IP address of your target device", "globe") }}
+                {{ form_field("text", "device_port", "device_port", "Port Number", "5555", true, "Enter the port number for the connection", "hdd-network") }}
+                {{ form_field("text", "pair_code", "pair_code", "Pairing Code", "Enter pairing code", true, "Enter the pairing code displayed on your device", "key") }}
+                
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="bi bi-plug me-2"></i>
+                        Connect to Device
+                    </button>
+                </div>
+            </form>
+        {% endcall %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,107 @@
+# =========================
+# OS generated files
+# =========================
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+Desktop.ini
+
+# =========================
+# Node.js / JavaScript
+# =========================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pkl
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+ENV/
+
+# =========================
+# Java
+# =========================
+*.class
+*.jar
+*.war
+*.ear
+*.iml
+*.ipr
+*.iws
+out/
+
+# =========================
+# Go
+# =========================
+bin/
+*.exe
+*.test
+*.out
+
+# =========================
+# C / C++
+# =========================
+*.o
+*.obj
+*.so
+*.dll
+*.exe
+*.dSYM/
+
+# =========================
+# Logs & Coverage
+# =========================
+*.log
+*.log.*
+logs/
+coverage/
+coverage-final.json
+lcov.info
+.nyc_output/
+
+# =========================
+# Environment & Secrets
+# =========================
+.env
+.env.*
+*.key
+*.pem
+
+# =========================
+# IDE / Editor files
+# =========================
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+*.bak
+*.tmp
+
+# =========================
+# Misc
+# =========================
+*.lock
+*.cache
+*.pid
+*.seed
+*.tgz
+
+# =========================
+# Generated docs
+# =========================
+docs/_build/
+site/

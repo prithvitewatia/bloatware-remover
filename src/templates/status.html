@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% from "components/card.html" import card %}
+
+{% block title %}Status - Bloatware Remover{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        {% call card("Operation Status", "info-circle") %}
+            <div class="text-center">
+                {% if success %}
+                <div class="alert alert-success" role="alert">
+                    <div class="d-flex align-items-center justify-content-center">
+                        <i class="bi bi-check-circle-fill me-3" style="font-size: 2rem;"></i>
+                        <div>
+                            <h5 class="alert-heading mb-1">Success!</h5>
+                            <p class="mb-0">{{ message }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="alert alert-danger" role="alert">
+                    <div class="d-flex align-items-center justify-content-center">
+                        <i class="bi bi-exclamation-triangle-fill me-3" style="font-size: 2rem;"></i>
+                        <div>
+                            <h5 class="alert-heading mb-1">Error!</h5>
+                            <p class="mb-0">{{ message }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                
+                <div class="mt-4">
+                    <a href="/packages" class="btn btn-primary btn-lg">
+                        <i class="bi bi-box me-2"></i>
+                        Go to Installed Packages
+                    </a>
+                </div>
+                
+                <div class="mt-3">
+                    <a href="/" class="btn btn-outline-secondary">
+                        <i class="bi bi-wifi me-2"></i>
+                        Back to Connect
+                    </a>
+                </div>
+            </div>
+        {% endcall %}
+    </div>
+</div>
+{% endblock %}

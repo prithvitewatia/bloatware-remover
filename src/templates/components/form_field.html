@@ -1,0 +1,21 @@
+{% macro form_field(field_type, field_name, field_id, label, placeholder="", required=false, help_text="", icon="") %}
+<div class="mb-3">
+    <label for="{{ field_id }}" class="form-label">
+        {% if icon %}
+            <i class="bi bi-{{ icon }} me-1"></i>
+        {% endif %}
+        {{ label }}
+    </label>
+    <input 
+        type="{{ field_type }}" 
+        class="form-control" 
+        id="{{ field_id }}" 
+        name="{{ field_name }}" 
+        placeholder="{{ placeholder }}"
+        {% if required %}required{% endif %}
+    >
+    {% if help_text %}
+        <div class="form-text">{{ help_text }}</div>
+    {% endif %}
+</div>
+{% endmacro %} 
