@@ -63,6 +63,8 @@ class ConnectionManager:
         :return: True if the connection was successful, False otherwise.
         """
 
+        if not (device_ip and device_port and device_code):
+            return False
         cls.logger.debug(f"Connecting to device {device_ip}:{device_port}...")
         process = subprocess.Popen(
             ["adb", "pair", f"{device_ip}:{device_port}"],

@@ -49,7 +49,7 @@ async def get_packages(request: Request):
     """
     packages = await PackageManager.get_installed_packages()
     if not packages:
-        return RedirectResponse("/")
+        return RedirectResponse("/", status_code=303)
     return templates.TemplateResponse(
         "packages.html",
         {
