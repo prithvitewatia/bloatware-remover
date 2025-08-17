@@ -30,8 +30,8 @@ class TestMainApplication:
     def test_app_startup(self):
         """Test that the app can start without errors"""
         # This test ensures the app can be instantiated and configured
-        assert app.title == "FastAPI"
-        assert app.version == "0.1.0"
+        assert app.title == "Bloatware Remover"
+        assert app.version == "1.0.0"
 
 
 class TestApplicationEndpoints:
