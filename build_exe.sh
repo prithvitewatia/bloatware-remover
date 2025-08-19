@@ -17,7 +17,7 @@ rm -rf build/ dist/ *.spec
 
 # Build the executable
 echo "Building the executable..."
-pyinstaller --onefile src/main.py --name bloatware-remove --add-data "src/templates:src/templates"
+pyinstaller --onefile src/main.py --name bloatware-remover --add-data "src/templates:src/templates"
 
 echo "Build complete. The executable is in the dist/ directory."
 
