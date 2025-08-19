@@ -3,11 +3,5 @@ uvicorn==0.35.0
 Jinja2==3.1.6
 python-multipart==0.0.20
 
-# Testing dependencies
-pytest==7.4.3
-pytest-asyncio==0.21.1
-pytest-cov==4.1.0
-httpx==0.25.2
-
 # Build dependencies
 pyinstaller==6.15.0
