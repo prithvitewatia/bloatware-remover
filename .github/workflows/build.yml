@@ -41,7 +41,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: app-${{ matrix.os }}
+          name: bloatware-remover-${{ matrix.os }}
           path: dist/*
 
   release:
@@ -66,11 +66,11 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.event.inputs.version }}
-          name: Release ${{ github.event.inputs.version }}
+          tag_name: ${{ github.event.inputs.tag }}
+          name: Release ${{ github.event.inputs.tag }}
           draft: false
           prerelease: false
           files: |
-            app-linux
-            app-windows.exe
-            app-macos
+            bloatware-remover-linux
+            bloatware-remover-windows.exe
+            bloatware-remover-macos
