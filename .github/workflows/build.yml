@@ -1,7 +1,12 @@
-name: Build Executable
+ name: Build and Release Executable
 
 on:
   workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Git tag to use for the release'
+        required: true
+        type: string
 
 jobs:
   build-exe:
@@ -20,4 +25,23 @@ jobs:
         run: chmod +x build_exe.sh
       - name: Build executable with PyInstaller
         run: ./build_exe.sh
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.event.inputs.tag }}
+          release_name: Release ${{ github.event.inputs.tag }}
+          draft: false
+          prerelease: false
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./dist/bloatware_remover-${{ github.event.inputs.tag }}
+          asset_name: your_executable_name
+          asset_content_type: application/octet-stream
 

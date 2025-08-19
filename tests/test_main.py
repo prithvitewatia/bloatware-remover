@@ -31,7 +31,7 @@ class TestMainApplication:
         """Test that the app can start without errors"""
         # This test ensures the app can be instantiated and configured
         assert app.title == "Bloatware Remover"
-        assert app.version == "1.0.0"
+        assert app.version == "0.0.1"
 
 
 class TestApplicationEndpoints:

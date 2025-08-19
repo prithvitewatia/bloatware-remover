@@ -19,7 +19,7 @@ from src.routes import router
 app = FastAPI(
     title="Bloatware Remover",
     description="A modern web-based tool for safely removing bloatware from Android devices using ADB",
-    version="1.0.0",
+    version="0.0.1",
     docs_url="/docs",
     redoc_url="/redoc"
 )

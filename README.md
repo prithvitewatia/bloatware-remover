@@ -30,7 +30,7 @@ A modern web-based tool for safely removing bloatware from Android devices using
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/bloatware-remove.git
+   git clone https://github.com/prithvitewatia/bloatware-remover.git
    cd bloatware-remove
    ```
 
