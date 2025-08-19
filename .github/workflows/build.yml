@@ -35,7 +35,7 @@ jobs:
           elif [[ "$RUNNER_OS" == "Linux" ]]; then
             mv dist/bloatware-remover dist/bloatware-remover-linux
           elif [[ "$RUNNER_OS" == "macOS" ]]; then
-            mv dist/bloatware-remover dist/bloatware-remover_macos
+            mv dist/bloatware-remover dist/bloatware-remover-macos
           fi
         shell: bash
       - name: Upload artifact
@@ -61,7 +61,7 @@ jobs:
         run: ls -R
 
       - name: Make files executable (Linux/Mac)
-        run: chmod +x app-* || true
+        run: chmod +x bloatware-remover-* || true
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
