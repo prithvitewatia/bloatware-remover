@@ -1,4 +1,4 @@
- name: Build and Release Executable
+name: Build and Release Executable
 
 on:
   workflow_dispatch:
