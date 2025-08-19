@@ -27,7 +27,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Make executable
-        run: pyinstaller bloatware_remover.spec
+        run: pyinstaller bloatware-remover.spec
       - name: Rename executable
         run: |
           if [ "${{ matrix.os }}" == "windows-latest" ]; then
