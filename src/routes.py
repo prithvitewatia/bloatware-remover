@@ -1,10 +1,11 @@
 import os
 
-from fastapi import APIRouter, Request, Form
+from fastapi import APIRouter, Request
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 
-from .bloatware_removal import ConnectionManager, PackageManager
+from .connection_manager import ConnectionManager
+from .pkg_manager import PackageManager
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 templates = Jinja2Templates(directory=os.path.join(script_dir, "templates"))
@@ -51,13 +52,7 @@ async def get_packages(request: Request):
     if not packages:
         return RedirectResponse("/", status_code=303)
     return templates.TemplateResponse(
-        "packages.html",
-        {
-            "request": request,
-            "packages": packages,
-            "message": "",
-            "success": True
-        }
+        "packages.html", {"request": request, "packages": packages, "message": "", "success": True}
     )
 
 
@@ -73,12 +68,15 @@ async def apply_action(request: Request):
     form = await request.form()
     action_form = dict(form)
     failed_packages = await PackageManager.perform_action_on_packages(action_form)
-    return templates.TemplateResponse("status.html", {
-        "request": request,
-        "message": (
-            "Failed to perform actions on: " + "\n".join(failed_packages)
-            if failed_packages
-            else "Successfully applied actions."
-        ),
-        "success": not failed_packages
-    })
+    return templates.TemplateResponse(
+        "status.html",
+        {
+            "request": request,
+            "message": (
+                "Failed to perform actions on: " + "\n".join(failed_packages)
+                if failed_packages
+                else "Successfully applied actions."
+            ),
+            "success": not failed_packages,
+        },
+    )

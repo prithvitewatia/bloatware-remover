@@ -1,5 +1,5 @@
-import pytest
 from fastapi.testclient import TestClient
+
 from src.main import app
 
 client = TestClient(app)
@@ -17,7 +17,7 @@ class TestMainApplication:
         """Test that the app has the expected routes"""
         routes = [route.path for route in app.routes]
         expected_routes = ["/", "/connect-to-device", "/packages", "/apply-actions"]
-        
+
         for route in expected_routes:
             assert route in routes
 
@@ -94,7 +94,7 @@ class TestApplicationMiddleware:
         """Test that response headers are properly set"""
         response = client.get("/")
         headers = response.headers
-        
+
         assert "content-type" in headers
         assert "text/html" in headers["content-type"]
 
@@ -125,10 +125,11 @@ class TestApplicationPerformance:
     def test_root_endpoint_response_time(self):
         """Test that root endpoint responds quickly"""
         import time
+
         start_time = time.time()
         response = client.get("/")
         end_time = time.time()
-        
+
         assert response.status_code == 200
         assert (end_time - start_time) < 1.0  # Should respond within 1 second
 
@@ -138,7 +139,7 @@ class TestApplicationPerformance:
         for _ in range(5):
             response = client.get("/")
             responses.append(response.status_code)
-        
+
         # All requests should succeed
         assert all(status == 200 for status in responses)
 
@@ -150,7 +151,7 @@ class TestApplicationSecurity:
         """Test that no sensitive information is exposed in headers"""
         response = client.get("/")
         headers = response.headers
-        
+
         # Check that server information is not exposed
         sensitive_headers = ["server", "x-powered-by", "x-aspnet-version"]
         for header in sensitive_headers:
@@ -160,7 +161,7 @@ class TestApplicationSecurity:
         """Test that content security policy is properly set"""
         response = client.get("/")
         headers = response.headers
-        
+
         # Note: CSP headers might not be set if not configured
         # This test ensures the app doesn't crash when checking headers
-        assert "content-type" in headers 
+        assert "content-type" in headers

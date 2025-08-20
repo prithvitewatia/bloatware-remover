@@ -17,6 +17,31 @@ A modern web-based tool for safely removing bloatware from Android devices using
 - **🔍 Real-time Status**: Live feedback on operation success/failure
 - **🎨 Beautiful UI**: Clean, professional interface with Bootstrap components
 
+## 🧰 First Run Instructions (macOS & Linux)
+
+Users can directly download the binarie s from the release page and do the following steps. Our project has this many downloads until now  ![Downloads](https://img.shields.io/github/downloads/prithvitewatia/bloatware-remover/total?logo=github&cacheSeconds=3600):
+
+### Mark the binary executable (macOS/Linux)
+```bash
+chmod +x ./bloatware-remover
+./bloatware-remover
+```
+
+### macOS Gatekeeper (no Apple Developer certificate)
+If you see “App is damaged or can’t be opened” / “Developer cannot be verified”:
+
+- Method A (recommended):
+  1. Right-click the app (or binary) → Open
+  2. Click “Open”
+  3. Or go to System Settings → Privacy & Security → scroll to “Security” → click “Allow Anyway”, then run again
+
+- Method B (terminal):
+```bash
+xattr -d com.apple.quarantine ./bloatware-remover
+./bloatware-remover
+```
+
+
 ## 🚀 Quick Start
 
 ### Prerequisites

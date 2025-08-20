@@ -1,7 +1,9 @@
-import pytest
 import asyncio
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
+
 from fastapi.testclient import TestClient
+import pytest
+
 from src.main import app
 
 
@@ -26,17 +28,17 @@ def mock_package_list():
     """Mock package list for testing"""
     return [
         "com.example.app1",
-        "com.example.app2", 
+        "com.example.app2",
         "com.system.app",
         "com.google.android.apps.maps",
-        "com.android.settings"
+        "com.android.settings",
     ]
 
 
 @pytest.fixture
 def mock_successful_action():
     """Mock successful package action"""
-    with patch('src.bloatware_removal.CommandManager.execute_command') as mock_execute:
+    with patch('src.cmd_manager.CommandManager.execute_command') as mock_execute:
         mock_execute.return_value = "Success"
         yield mock_execute
 
@@ -44,7 +46,7 @@ def mock_successful_action():
 @pytest.fixture
 def mock_failed_action():
     """Mock failed package action"""
-    with patch('src.bloatware_removal.CommandManager.execute_command') as mock_execute:
+    with patch('src.cmd_manager.CommandManager.execute_command') as mock_execute:
         mock_execute.return_value = "Failure: Package not found"
         yield mock_execute
 
@@ -56,32 +58,22 @@ def sample_action_form():
         "action_com.example.app1": "disable",
         "action_com.example.app2": "uninstall",
         "action_com.system.app": "",
-        "action_com.google.android.apps.maps": "disable"
+        "action_com.google.android.apps.maps": "disable",
     }
 
 
 @pytest.fixture
 def sample_connection_data():
     """Sample connection data for testing"""
-    return {
-        "device_ip": "192.168.1.100",
-        "device_port": "5555",
-        "pair_code": "123456"
-    }
+    return {"device_ip": "192.168.1.100", "device_port": "5555", "pair_code": "123456"}
 
 
 # Pytest configuration
 def pytest_configure(config):
     """Configure pytest with custom markers"""
-    config.addinivalue_line(
-        "markers", "asyncio: mark test as async"
-    )
-    config.addinivalue_line(
-        "markers", "integration: mark test as integration test"
-    )
-    config.addinivalue_line(
-        "markers", "unit: mark test as unit test"
-    )
+    config.addinivalue_line("markers", "asyncio: mark test as async")
+    config.addinivalue_line("markers", "integration: mark test as integration test")
+    config.addinivalue_line("markers", "unit: mark test as unit test")
 
 
 # Async test configuration
@@ -98,21 +90,13 @@ def event_loop():
 def test_packages_data():
     """Test data for packages"""
     return {
-        "system_packages": [
-            "com.android.settings",
-            "com.android.systemui",
-            "com.android.phone"
-        ],
-        "user_packages": [
-            "com.example.app1",
-            "com.example.app2",
-            "com.facebook.katana"
-        ],
+        "system_packages": ["com.android.settings", "com.android.systemui", "com.android.phone"],
+        "user_packages": ["com.example.app1", "com.example.app2", "com.facebook.katana"],
         "bloatware_packages": [
             "com.samsung.android.bixby",
             "com.google.android.apps.maps",
-            "com.google.android.youtube"
-        ]
+            "com.google.android.youtube",
+        ],
     }
 
 
@@ -124,26 +108,21 @@ def test_connection_scenarios():
             "ip": "192.168.1.100",
             "port": "5555",
             "code": "123456",
-            "expected": True
+            "expected": True,
         },
         "invalid_ip": {
             "ip": "invalid.ip.address",
             "port": "5555",
             "code": "123456",
-            "expected": False
+            "expected": False,
         },
         "invalid_port": {
             "ip": "192.168.1.100",
             "port": "99999",
             "code": "123456",
-            "expected": False
+            "expected": False,
         },
-        "empty_code": {
-            "ip": "192.168.1.100",
-            "port": "5555",
-            "code": "",
-            "expected": True
-        }
+        "empty_code": {"ip": "192.168.1.100", "port": "5555", "code": "", "expected": False},
     }
 
 
@@ -155,26 +134,26 @@ def test_action_scenarios():
             "package": "com.example.app",
             "action": "disable",
             "expected_command": "adb shell pm disable-user --user 0 com.example.app",
-            "expected_result": []
+            "expected_result": [],
         },
         "uninstall_success": {
             "package": "com.example.app",
             "action": "uninstall",
             "expected_command": "adb shell pm uninstall --user 0 com.example.app",
-            "expected_result": []
+            "expected_result": [],
         },
         "no_action": {
             "package": "com.example.app",
             "action": "",
             "expected_command": None,
-            "expected_result": []
+            "expected_result": [],
         },
         "invalid_action": {
             "package": "com.example.app",
             "action": "invalid",
             "expected_command": ":",
-            "expected_result": []
-        }
+            "expected_result": [],
+        },
     }
 
 
@@ -201,8 +180,8 @@ def performance_thresholds():
     """Performance thresholds for testing"""
     return {
         "response_time_ms": 1000,  # 1 second
-        "memory_usage_mb": 100,    # 100 MB
-        "cpu_usage_percent": 50    # 50%
+        "memory_usage_mb": 100,  # 100 MB
+        "cpu_usage_percent": 50,  # 50%
     }
 
 
@@ -214,7 +193,7 @@ def security_headers():
         "content-security-policy": "default-src 'self'",
         "x-content-type-options": "nosniff",
         "x-frame-options": "DENY",
-        "x-xss-protection": "1; mode=block"
+        "x-xss-protection": "1; mode=block",
     }
 
 
@@ -226,5 +205,5 @@ def error_scenarios():
         "connection_timeout": Exception("Connection timeout"),
         "invalid_command": Exception("Invalid command"),
         "permission_denied": Exception("Permission denied"),
-        "device_not_found": Exception("Device not found")
-    } 
+        "device_not_found": Exception("Device not found"),
+    }
