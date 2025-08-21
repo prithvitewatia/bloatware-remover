@@ -19,7 +19,7 @@ A modern web-based tool for safely removing bloatware from Android devices using
 
 ## 🧰 First Run Instructions (macOS & Linux)
 
-Users can directly download the binarie s from the release page and do the following steps. Our project has this many downloads until now  ![Downloads](https://img.shields.io/github/downloads/prithvitewatia/bloatware-remover/total?logo=github&cacheSeconds=3600):
+Users can directly download the binaries from the release page and do the following steps. Our project has been downloaded ![Downloads](https://img.shields.io/github/downloads/prithvitewatia/bloatware-remover/total?logo=github&cacheSeconds=3600) times.
 
 ### Mark the binary executable (macOS/Linux)
 ```bash
@@ -41,6 +41,72 @@ xattr -d com.apple.quarantine ./bloatware-remover
 ./bloatware-remover
 ```
 
+## 📖 Usage Guide
+
+### 1. Connect to Your Device
+
+1. Enable **Developer Options** on your Android device
+2. Enable **USB Debugging** and **Wireless Debugging**
+3. Note your device's IP address and port from the wireless debugging settings
+4. Enter the IP address, port, and pairing code in the web interface
+5. Click "Connect to Device"
+
+### 2. Manage Packages
+
+1. Once connected, you'll see a list of all installed packages
+2. Select actions for each package:
+   - **No action**: Leave package unchanged
+   - **Disable**: Disable the package (can be re-enabled later)
+   - **Uninstall**: Remove the package completely
+3. Use bulk action buttons for quick selection
+4. Click "Apply Actions" to execute your changes
+
+### 3. Monitor Status
+
+- View operation results and any failed actions
+- Navigate back to package management or connection
+
+## 📷 Previews
+
+[![Connection page](assets/connect_page.png)](https://github.com/prithvitewatia/bloatware-remover)
+[![Package management page](assets/installed_packages_page.png)](https://github.com/prithvitewatia/bloatware-remover)
+
+## 🔧 Configuration
+
+### Environment Variables
+
+No environment variables are required for basic usage. The application uses default settings suitable for most use cases.
+
+### ADB Configuration
+
+Ensure ADB is properly configured:
+```bash
+# Check if ADB is available
+adb version
+
+# Start ADB server
+adb start-server
+```
+
+## 📱 Supported Devices
+
+- Android devices with ADB support
+- Devices running Android 4.0+ (API level 14+)
+- Both USB and wireless debugging connections
+
+## ⚠️ Important Notes
+
+### Safety Warnings
+
+- **System Packages**: Be careful when disabling system packages as they may be essential for device functionality
+- **Backup**: Consider backing up your device before making changes
+- **Research**: Research packages before disabling/uninstalling to avoid breaking system functionality
+
+### Limitations
+
+- Requires ADB access to the device
+- Some packages may be protected and cannot be modified
+- Wireless debugging requires device and computer on same network
 
 ## 🚀 Quick Start
 
@@ -78,36 +144,6 @@ xattr -d com.apple.quarantine ./bloatware-remover
 5. **Open your browser**
    Navigate to `http://localhost:8000`
 
-## 📖 Usage Guide
-
-### 1. Connect to Your Device
-
-1. Enable **Developer Options** on your Android device
-2. Enable **USB Debugging** and **Wireless Debugging**
-3. Note your device's IP address and port from the wireless debugging settings
-4. Enter the IP address, port, and pairing code in the web interface
-5. Click "Connect to Device"
-
-### 2. Manage Packages
-
-1. Once connected, you'll see a list of all installed packages
-2. Select actions for each package:
-   - **No action**: Leave package unchanged
-   - **Disable**: Disable the package (can be re-enabled later)
-   - **Uninstall**: Remove the package completely
-3. Use bulk action buttons for quick selection
-4. Click "Apply Actions" to execute your changes
-
-### 3. Monitor Status
-
-- View operation results and any failed actions
-- Navigate back to package management or connection
-
-## 📷 Previews
-
-[![Connection page](assets/connect_page.png)](https://github.com/prithvitewatia/bloatware-remover)
-[![Package management page](assets/installed_packages_page.png)](https://github.com/prithvitewatia/bloatware-remover)
-
 ## 🛠️ Technical Details
 
 ### Architecture
@@ -142,52 +178,6 @@ bloatware-remove/
 - **Jinja2**: Template engine for HTML rendering
 - **python-multipart**: Form data parsing
 
-## 🔧 Configuration
-
-### Environment Variables
-
-No environment variables are required for basic usage. The application uses default settings suitable for most use cases.
-
-### ADB Configuration
-
-Ensure ADB is properly configured:
-```bash
-# Check if ADB is available
-adb version
-
-# Start ADB server
-adb start-server
-```
-
-## 🧪 Testing
-
-Run the test suite:
-```bash
-# Run HTTP tests
-cd tests
-# Use your preferred HTTP client to test endpoints
-```
-
-## 📱 Supported Devices
-
-- Android devices with ADB support
-- Devices running Android 4.0+ (API level 14+)
-- Both USB and wireless debugging connections
-
-## ⚠️ Important Notes
-
-### Safety Warnings
-
-- **System Packages**: Be careful when disabling system packages as they may be essential for device functionality
-- **Backup**: Consider backing up your device before making changes
-- **Research**: Research packages before disabling/uninstalling to avoid breaking system functionality
-
-### Limitations
-
-- Requires ADB access to the device
-- Some packages may be protected and cannot be modified
-- Wireless debugging requires device and computer on same network
-
 ## 🤝 Contributing
 
 We welcome contributions! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
@@ -217,6 +207,17 @@ If you encounter any issues or have questions:
 1. Check the [Issues](https://github.com/prithvitewatia/bloatware-remover/issues) page
 2. Create a new issue with detailed information
 3. Include your device model, Android version, and error messages
+
+## ☕ Support the Project
+
+If you find this tool helpful, consider supporting its development:
+
+- **GitHub Sponsors**: [Sponsor @prithvitewatia](https://github.com/sponsors/prithvitewatia)
+- **PayPal**: [Donate via PayPal](PayPal.Me/PrithviSinghDev)
+
+### 🎯 Funding Goals
+- [ ] Apple Developer License ($99/year) - Remove macOS Gatekeeper warnings
+- [ ] Build and ship new and exciting features
 
 ---
 
