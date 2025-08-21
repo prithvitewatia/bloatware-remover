@@ -213,7 +213,7 @@ If you encounter any issues or have questions:
 If you find this tool helpful, consider supporting its development:
 
 - **GitHub Sponsors**: [Sponsor @prithvitewatia](https://github.com/sponsors/prithvitewatia)
-- **PayPal**: [Donate via PayPal](PayPal.Me/PrithviSinghDev)
+- **PayPal**: [Donate via PayPal](https://PayPal.Me/PrithviSinghDev)
 
 ### 🎯 Funding Goals
 - [ ] Apple Developer License ($99/year) - Remove macOS Gatekeeper warnings
