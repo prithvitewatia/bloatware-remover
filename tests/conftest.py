@@ -4,7 +4,34 @@ from unittest.mock import MagicMock, patch
 from fastapi.testclient import TestClient
 import pytest
 
+from src.db import db_manager
 from src.main import app
+
+
+@pytest.fixture(scope="function", autouse=True)
+def mock_db_connection():
+    """Mock database connection for all tests"""
+    # Create a synchronous mock of the async DB connection
+    mock_connection = MagicMock()
+    mock_cursor = MagicMock()
+    mock_cursor_context = MagicMock()
+    mock_cursor_context.__aenter__.return_value = mock_cursor
+    mock_cursor.execute = MagicMock()
+    mock_cursor.fetchone = MagicMock(return_value=("test_device",))
+    mock_connection.cursor.return_value = mock_cursor_context
+    mock_connection.execute = MagicMock()
+    mock_connection.commit = MagicMock()
+
+    # Patch the db_manager to use the mock connection
+    with patch.object(db_manager, 'connection', mock_connection):
+        # Also patch the async methods
+        with patch.object(db_manager, 'connect', return_value=True):
+            with patch.object(db_manager, 'is_connected', return_value=True):
+                with patch.object(db_manager, 'get_selected_device', return_value="test_device"):
+                    with patch.object(db_manager, 'set_selected_device'):
+                        with patch.object(db_manager, 'create_tables'):
+                            with patch.object(db_manager, 'close'):
+                                yield
 
 
 @pytest.fixture

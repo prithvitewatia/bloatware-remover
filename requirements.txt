@@ -2,6 +2,7 @@ fastapi==0.116.1
 uvicorn==0.35.0
 Jinja2==3.1.6
 python-multipart==0.0.20
+aiosqlite==0.21.0
 
 # Build dependencies
 pyinstaller==6.15.0

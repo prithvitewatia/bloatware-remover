@@ -1,23 +1,38 @@
-# Ensure src directory is in sys.path for PyInstaller executable
+from contextlib import asynccontextmanager
 import logging
 import sys
 
 from fastapi import FastAPI
 import uvicorn
 
+from src.db import db_manager
 from src.routes import router
 from src.utils import check_adb, show_cli_help
 
 logger = logging.getLogger(__name__)
 
 
-# Create FastAPI app with better metadata
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    await db_manager.connect()
+    if not await db_manager.is_connected():
+        logger.error("Failed to connect to the db")
+        sys.exit(1)
+    logger.info("Connected to database")
+    await db_manager.create_tables()
+    logger.info("Created db tables")
+    yield
+    await db_manager.close()
+    logger.info("Closed db connection")
+
+
 app = FastAPI(
     title="Bloatware Remover",
     description="A modern web-based tool for safely removing bloatware from Android devices using ADB",
     version="0.0.1",
     docs_url="/docs",
     redoc_url="/redoc",
+    lifespan=lifespan,
 )
 app.include_router(router)
 
@@ -29,12 +44,11 @@ def start_server():
     logger.info("⏹️  Press Ctrl+C to stop the application")
 
     try:
-        # Use direct app reference for PyInstaller executable
         uvicorn.run(
             app,
             host="0.0.0.0",
             port=8000,
-            reload=False,  # Disable reload for production
+            reload=False,
             log_level="info",
         )
     except KeyboardInterrupt:

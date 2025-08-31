@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+
+{% block title %}Devices - Bloatware Remover{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">
+                    <i class="bi bi-phone me-2"></i>
+                    Connected Devices
+                </h4>
+            </div>
+            <div class="card-body">
+                {% if devices %}
+                <div class="alert alert-info">
+                    <h6 class="alert-heading">
+                        <i class="bi bi-info-circle me-2"></i>
+                        Device Management
+                    </h6>
+                    <p class="mb-0">Select a device to manage its packages. Only one device can be active at a time.</p>
+                </div>
+
+                <form method="post" action="/select-device">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col" style="width: 10%">
+                                        <i class="bi bi-check-circle me-1"></i>
+                                        Select
+                                    </th>
+                                    <th scope="col" style="width: 25%">
+                                        <i class="bi bi-phone me-1"></i>
+                                        Device Model
+                                    </th>
+                                    <th scope="col" style="width: 45%">
+                                        <i class="bi bi-hash me-1"></i>
+                                        Serial Number
+                                    </th>
+                                    <th scope="col" style="width: 20%">
+                                        <i class="bi bi-gear me-1"></i>
+                                        Status
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for device in devices %}
+                                <tr class="{% if device.is_selected %}table-primary{% endif %}">
+                                    <td>
+                                        <div class="form-check">
+                                            <input 
+                                                class="form-check-input" 
+                                                type="radio" 
+                                                name="selected_device" 
+                                                id="device_{{ loop.index }}"
+                                                value="{{ device.serial_number }}"
+                                                {% if device.is_selected %}checked{% endif %}
+                                                onchange="updateDeviceSelection(this)"
+                                            >
+                                            <label class="form-check-label" for="device_{{ loop.index }}">
+                                                {% if device.is_selected %}
+                                                <i class="bi bi-check-circle-fill text-primary"></i>
+                                                {% endif %}
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-phone me-2 text-success"></i>
+                                            <span class="fw-medium">{{ device.model }}</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <code class="text-muted">{{ device.serial_number }}</code>
+                                    </td>
+                                    <td>
+                                        {% if device.is_selected %}
+                                        <span class="badge bg-success">
+                                            <i class="bi bi-check-circle me-1"></i>
+                                            Selected
+                                        </span>
+                                        {% else %}
+                                        <span class="badge bg-secondary">
+                                            <i class="bi bi-circle me-1"></i>
+                                            Not Selected
+                                        </span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <div class="text-muted">
+                            <i class="bi bi-info-circle me-1"></i>
+                            {{ devices|length }} device(s) connected
+                        </div>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <button type="button" class="btn btn-outline-secondary me-2" onclick="refreshDevices()">
+                                <i class="bi bi-arrow-clockwise me-1"></i>
+                                Refresh Devices
+                            </button>
+                            <button type="submit" class="btn btn-primary" id="selectDeviceBtn" disabled>
+                                <i class="bi bi-check-circle me-2"></i>
+                                Select Device
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                {% else %}
+                <div class="alert alert-warning">
+                    <h6 class="alert-heading">
+                        <i class="bi bi-exclamation-triangle me-2"></i>
+                        No Devices Connected
+                    </h6>
+                    <p class="mb-3">No Android devices are currently connected via ADB.</p>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                        <a href="/connect" class="btn btn-primary">
+                            <i class="bi bi-wifi me-2"></i>
+                            Connect Device
+                        </a>
+                        <button type="button" class="btn btn-outline-secondary" onclick="refreshDevices()">
+                            <i class="bi bi-arrow-clockwise me-2"></i>
+                            Refresh
+                        </button>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function updateDeviceSelection(radio) {
+    // Update visual feedback
+    const rows = document.querySelectorAll('tbody tr');
+    rows.forEach(row => {
+        row.classList.remove('table-primary');
+    });
+    
+    if (radio.checked) {
+        radio.closest('tr').classList.add('table-primary');
+        document.getElementById('selectDeviceBtn').disabled = false;
+    } else {
+        document.getElementById('selectDeviceBtn').disabled = true;
+    }
+}
+
+function refreshDevices() {
+    // Show loading state
+    const refreshBtn = document.querySelector('button[onclick="refreshDevices()"]');
+    const originalText = refreshBtn.innerHTML;
+    refreshBtn.innerHTML = '<i class="bi bi-arrow-clockwise me-1 spin"></i>Refreshing...';
+    refreshBtn.disabled = true;
+    
+    // Reload the page
+    setTimeout(() => {
+        window.location.reload();
+    }, 1000);
+}
+
+// Initialize page
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if any device is already selected
+    const selectedRadio = document.querySelector('input[name="selected_device"]:checked');
+    if (selectedRadio) {
+        document.getElementById('selectDeviceBtn').disabled = false;
+    }
+    
+    // Add spinning animation for refresh button
+    const style = document.createElement('style');
+    style.textContent = `
+        .spin {
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    `;
+    document.head.appendChild(style);
+});
+</script>
+{% endblock %}

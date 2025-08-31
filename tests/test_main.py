@@ -2,8 +2,6 @@ from fastapi.testclient import TestClient
 
 from src.main import app
 
-client = TestClient(app)
-
 
 class TestMainApplication:
     """Test cases for the main FastAPI application"""
@@ -37,23 +35,23 @@ class TestMainApplication:
 class TestApplicationEndpoints:
     """Test cases for application endpoints"""
 
-    def test_root_endpoint_exists(self):
+    def test_root_endpoint_exists(self, client: TestClient):
         """Test that the root endpoint exists and is accessible"""
         response = client.get("/")
         assert response.status_code == 200
 
-    def test_connect_endpoint_exists(self):
+    def test_connect_endpoint_exists(self, client: TestClient):
         """Test that the connect endpoint exists and accepts POST requests"""
         response = client.post("/connect-to-device", data={})
         assert response.status_code == 200
 
-    def test_packages_endpoint_exists(self):
+    def test_packages_endpoint_exists(self, client: TestClient):
         """Test that the packages endpoint exists and is accessible"""
         response = client.get("/packages")
         # Should redirect to root if no connection
         assert response.status_code in [200, 303]
 
-    def test_apply_actions_endpoint_exists(self):
+    def test_apply_actions_endpoint_exists(self, client: TestClient):
         """Test that the apply actions endpoint exists and accepts POST requests"""
         response = client.post("/apply-actions", data={})
         assert response.status_code == 200
@@ -67,12 +65,12 @@ class TestApplicationConfiguration:
         # This test ensures the app configuration is valid
         assert hasattr(app, 'debug')
 
-    def test_app_docs_available(self):
+    def test_app_docs_available(self, client: TestClient):
         """Test that API documentation is available"""
         response = client.get("/docs")
         assert response.status_code == 200
 
-    def test_app_openapi_schema(self):
+    def test_app_openapi_schema(self, client: TestClient):
         """Test that OpenAPI schema is available"""
         response = client.get("/openapi.json")
         assert response.status_code == 200
@@ -82,7 +80,7 @@ class TestApplicationConfiguration:
 class TestApplicationMiddleware:
     """Test cases for application middleware"""
 
-    def test_cors_headers(self):
+    def test_cors_headers(self, client: TestClient):
         """Test that CORS headers are properly set"""
         response = client.get("/")
         # Check for common CORS headers
@@ -90,7 +88,7 @@ class TestApplicationMiddleware:
         # Note: CORS headers might not be set if not configured
         assert "content-type" in headers
 
-    def test_response_headers(self):
+    def test_response_headers(self, client: TestClient):
         """Test that response headers are properly set"""
         response = client.get("/")
         headers = response.headers
@@ -102,17 +100,17 @@ class TestApplicationMiddleware:
 class TestApplicationErrorHandling:
     """Test cases for application error handling"""
 
-    def test_404_handling(self):
+    def test_404_handling(self, client: TestClient):
         """Test that 404 errors are handled properly"""
         response = client.get("/nonexistent-endpoint")
         assert response.status_code == 404
 
-    def test_method_not_allowed(self):
+    def test_method_not_allowed(self, client: TestClient):
         """Test that method not allowed errors are handled"""
         response = client.post("/")  # Root endpoint only accepts GET
         assert response.status_code == 405
 
-    def test_invalid_request_handling(self):
+    def test_invalid_request_handling(self, client: TestClient):
         """Test that invalid requests are handled properly"""
         # Test with invalid form data
         response = client.post("/connect-to-device", data="invalid_data")
@@ -122,7 +120,7 @@ class TestApplicationErrorHandling:
 class TestApplicationPerformance:
     """Test cases for application performance"""
 
-    def test_root_endpoint_response_time(self):
+    def test_root_endpoint_response_time(self, client: TestClient):
         """Test that root endpoint responds quickly"""
         import time
 
@@ -133,7 +131,7 @@ class TestApplicationPerformance:
         assert response.status_code == 200
         assert (end_time - start_time) < 1.0  # Should respond within 1 second
 
-    def test_multiple_requests(self):
+    def test_multiple_requests(self, client: TestClient):
         """Test that the app can handle multiple requests"""
         responses = []
         for _ in range(5):
@@ -147,7 +145,7 @@ class TestApplicationPerformance:
 class TestApplicationSecurity:
     """Test cases for application security"""
 
-    def test_no_sensitive_info_in_headers(self):
+    def test_no_sensitive_info_in_headers(self, client: TestClient):
         """Test that no sensitive information is exposed in headers"""
         response = client.get("/")
         headers = response.headers
@@ -157,7 +155,7 @@ class TestApplicationSecurity:
         for header in sensitive_headers:
             assert header not in headers
 
-    def test_content_security_policy(self):
+    def test_content_security_policy(self, client: TestClient):
         """Test that content security policy is properly set"""
         response = client.get("/")
         headers = response.headers
