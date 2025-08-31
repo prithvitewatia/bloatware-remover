@@ -1,14 +1,13 @@
 repos:
+  # Ruff: linter + import sorting
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.12.11
     hooks:
-      # Run the linter.
       - id: ruff-check
-        args: [ --fix ]
-      # Run the formatter.
-      - id: ruff-format
+        args: [--fix]   # auto-fix issues (respects pyproject.toml)
+
+  # Black: code formatting
   - repo: https://github.com/psf/black
     rev: 24.8.0
     hooks:
       - id: black
-        args: [ --check ]

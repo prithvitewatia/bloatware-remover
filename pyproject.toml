@@ -6,16 +6,9 @@ skip-string-normalization = true
 [tool.ruff]
 line-length = 100
 target-version = "py311"
-lint.select = ["E", "F", "I"]        # pycodestyle, pyflakes, import order
-lint.ignore = ["E501", "F401", "F841"] # long lines, unused imports/vars (kept minimal)
-exclude = [
-  ".git",
-  ".venv",
-  "__pycache__",
-  "dist",
-  "build",
-  "htmlcov",
-]
+lint.select = ["E", "F", "I"]
+lint.ignore = ["E501"]
+exclude = [".git", ".venv", "__pycache__", "dist", "build", "htmlcov"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["src"]

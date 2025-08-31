@@ -70,6 +70,7 @@ xattr -d com.apple.quarantine ./bloatware-remover
 
 [![Connection page](assets/connect_page.png)](https://github.com/prithvitewatia/bloatware-remover)
 [![Package management page](assets/installed_packages_page.png)](https://github.com/prithvitewatia/bloatware-remover)
+[![Devices Management page](assets/connected_devices.png)](https://github.com/prithvitewatia/bloatware-remover)
 
 ## 🔧 Configuration
 
