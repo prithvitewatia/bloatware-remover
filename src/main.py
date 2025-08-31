@@ -29,7 +29,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title="Bloatware Remover",
     description="A modern web-based tool for safely removing bloatware from Android devices using ADB",
-    version="0.0.1",
+    version="1.0.0",
     docs_url="/docs",
     redoc_url="/redoc",
     lifespan=lifespan,
